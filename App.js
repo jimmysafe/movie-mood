@@ -1,26 +1,26 @@
 import React, { Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Button, StyleSheet, Text, View, Platform } from 'react-native'
+import { StyleSheet, Text, View, Platform } from 'react-native'
 import data from './DATA.json'
 
 
 export default class App extends Component {
   state = {
       cards: data,
-      swipedAllCards: false
+      swipedAllCards: false,
+      cardIndex: 0
   }
 
-  renderCard = (card) => {
+  renderCard = (card, index) => {
     return (
       <View style={styles.card}>
-        <Text style={styles.text}>{card.title}</Text>
+        <Text style={styles.text}>{card.title}- {index}</Text>
       </View>
     )
   };
 
   onSwiped = (type) => {
     console.log(`on swiped ${type}`)
-    console.log(this.state)
   }
 
   onSwipedAllCards = () => {
@@ -31,8 +31,9 @@ export default class App extends Component {
 
 
   render () {
+    console.log(this.state.swipedAllCards)
     return (
-      <View style={styles.container}>
+        <View style={styles.wrap}>
         <Swiper
           useViewOverflow={Platform.OS === 'ios'}
           verticalSwipe={false}
@@ -89,6 +90,7 @@ export default class App extends Component {
           animateCardOpacity
           swipeBackCard
         >
+                    {this.state.swipedAllCards && <Text style={{ fontSize: 40}}>Finished!</Text>}
         </Swiper>
       </View>
     )
@@ -96,9 +98,8 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'blue'
+  wrap: {
+    flex: 1
   },
   card: {
     flex: 1,
