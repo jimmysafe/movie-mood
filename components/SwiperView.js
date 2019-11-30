@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Swiper from 'react-native-deck-swiper'
 import { StyleSheet, Text, View, Platform, Button } from 'react-native'
-import data from '../DATA.json'
 import { API_KEY } from 'react-native-dotenv'
 import CardView from './CardView'
 import SwiperButtons from './SwiperButtons.js'
 import MovieTab from './MovieTab.js'
+import ColorLights from './ColorLights'
 
-
-
-const SwiperView = ({ fontLoaded }) =>  {
+const SwiperView = ({ navigation }) =>  {
   const [cards, setCards] = useState([])
   const [cardIndex, setCardIndex] = useState(0)
   const [swipedAllCards, setSwipedAllCards] = useState(false)
+  const [saved, setSaved] = useState([])
+  const [showGreen, setShowGreen] = useState(false)
+  const [showRed, setShowRed] = useState(false)
 
   useEffect(() => {
     axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`)
@@ -21,7 +22,6 @@ const SwiperView = ({ fontLoaded }) =>  {
   }, [])
 
   const renderCard = (card, index) => {
-    setCardIndex(index -2 )
     if(card){
       return (
         <CardView card={card} />
@@ -30,26 +30,46 @@ const SwiperView = ({ fontLoaded }) =>  {
   };
 
   const onSwiped = (type) => {
-    // console.log(`on swiped ${type}`)
-  }
+    setCardIndex(cardIndex + 1)
+    if(type === "right"){
+      let savedMovie = cards[cardIndex]
+      setSaved([...saved, savedMovie])
+      setShowGreen(false)
+    }
+    else if(type === "left"){
+      setShowRed(false)
+    }
+  };
 
   const onSwipedAllCards = () => {
     setSwipedAllCards(true)
   };
 
+  const aborted = () => {
+    setShowRed(false)
+    setShowGreen(false)
+  };
 
-console.log(cardIndex)
+  const swiping = (value) => {
+    if(value > 60){
+      setShowRed(false)
+      setShowGreen(true)
+    }
+    else if(value < -60){
+      setShowRed(true)
+      setShowGreen(false)
+    }
+  };
 
     return (
         <View style={{ 
           flex: 1
          }}>
-          {fontLoaded &&
-          <>
             <Swiper
               useViewOverflow={Platform.OS === 'ios'}
               verticalSwipe={false}
-              onSwiped={() => onSwiped('general')}
+              onSwiping={(x) => swiping(x)}
+              onSwipedAborted={() => aborted()}
               onSwipedLeft={() => onSwiped('left')}
               onSwipedRight={() => onSwiped('right')}
               onTapCard={() => onSwiped('TAPPED')}
@@ -60,55 +80,20 @@ console.log(cardIndex)
               onSwipedAll={onSwipedAllCards}
               stackSize={3}
               stackSeparation={20}
-              overlayLabels={{
-                left: {
-                  title: 'SEEN',
-                  style: {
-                    label: {
-                      backgroundColor: 'red',
-                      borderColor: 'red',
-                      color: 'white',
-                      borderWidth: 1
-                    },
-                    wrapper: {
-                      flexDirection: 'column',
-                      alignItems: 'flex-end',
-                      justifyContent: 'flex-start',
-                      marginTop: 30,
-                      marginLeft: -30
-                    }
-                  }
-                },
-                right: {
-                  title: 'LIKE',
-                  style: {
-                    label: {
-                      backgroundColor: 'green',
-                      borderColor: 'green',
-                      color: 'white',
-                      borderWidth: 1
-                    },
-                    wrapper: {
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                      justifyContent: 'flex-start',
-                      marginTop: 30,
-                      marginLeft: 30
-                    }
-                  }
-                }
-              }}
-              animateOverlayLabelsOpacity={true}
-              animateCardOpacity
-              swipeBackCard
-              backgroundColor= {'#313131'}
+              animateCardOpacity={false}
+              swipeBackCard={false}
+              backgroundColor= {"#313131"}
             >
                         {swipedAllCards && <Text style={{ fontSize: 40}}>Finished!</Text>}
             </Swiper>
             <SwiperButtons cards={cards} cardIndex={cardIndex}/>
+            { showRed &&  
+              <ColorLights choice="no"/>
+            }
+            { showGreen && 
+              <ColorLights choice="yes"/>
+            }
             <MovieTab />
-          </>
-          }
       </View>
     )
 }
