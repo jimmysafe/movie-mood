@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Swiper from 'react-native-deck-swiper'
-import { StyleSheet, Text, View, Platform, Button } from 'react-native'
-import { API_KEY } from 'react-native-dotenv'
+import { Text, View, Platform } from 'react-native'
 import CardView from './CardView'
 import SwiperButtons from './SwiperButtons.js'
 import MovieTab from './MovieTab.js'
 import ColorLights from './ColorLights'
+import { fetchMovies, addToFav } from '../actions'
+import { useSelector, useDispatch } from 'react-redux'
 
 const SwiperView = ({ navigation }) =>  {
+  const dispatch = useDispatch()
+  const movies = useSelector(state => state.cards.data)
+
   const [cards, setCards] = useState([])
   const [cardIndex, setCardIndex] = useState(0)
   const [swipedAllCards, setSwipedAllCards] = useState(false)
-  const [saved, setSaved] = useState([])
   const [showGreen, setShowGreen] = useState(false)
   const [showRed, setShowRed] = useState(false)
 
   useEffect(() => {
-    axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`)
-      .then(res => setCards(res.data.results))
+    dispatch(fetchMovies(navigation.state.params.color))
   }, [])
+  
+  useEffect(() => {
+    setCards(movies)
+  }, [movies])
 
   const renderCard = (card, index) => {
     if(card){
@@ -33,7 +38,7 @@ const SwiperView = ({ navigation }) =>  {
     setCardIndex(cardIndex + 1)
     if(type === "right"){
       let savedMovie = cards[cardIndex]
-      setSaved([...saved, savedMovie])
+      dispatch(addToFav(savedMovie))
       setShowGreen(false)
     }
     else if(type === "left"){
@@ -86,7 +91,7 @@ const SwiperView = ({ navigation }) =>  {
             >
                         {swipedAllCards && <Text style={{ fontSize: 40}}>Finished!</Text>}
             </Swiper>
-            <SwiperButtons cards={cards} cardIndex={cardIndex}/>
+            <SwiperButtons cards={cards} cardIndex={cardIndex} navigate={navigation.navigate}/>
             { showRed &&  
               <ColorLights choice="no"/>
             }
@@ -98,34 +103,5 @@ const SwiperView = ({ navigation }) =>  {
     )
 }
 
-const styles = StyleSheet.create({
-  wrap: {
-    flex: 1
-  },
-  card: {
-    flex: 1,
-    borderRadius: 15,
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.7,
-    // shadowRadius: 2,
-    // elevation: 1,
-    borderWidth: 2,
-    borderColor: '#E8E8E8'
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: 50,
-    backgroundColor: 'transparent'
-  },
-  done: {
-    textAlign: 'center',
-    fontSize: 30,
-    color: 'white',
-    backgroundColor: 'transparent'
-  }
-})
 
 export default SwiperView

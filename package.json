@@ -32,7 +32,8 @@
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
-    "babel-preset-expo": "^7.1.0"
+    "babel-preset-expo": "^7.1.0",
+    "reactotron-react-native": "^4.0.2"
   },
   "private": true
 }

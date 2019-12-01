@@ -20,7 +20,7 @@ const CardView = ({ card }) => {
                 maxStars={5}
                 rating={card.vote_average / 2}
                 starSize={15}
-                starStyle={{ margin: 3 }}
+                starStyle={{ marginHorizontal: 3 }}
                 halfStarEnabled= {true}
                 fullStarColor="#F4442E"
                 emptyStarColor="#F4442E"

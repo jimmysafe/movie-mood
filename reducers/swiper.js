@@ -1,10 +1,10 @@
 export const initState = {
-    movies: [],
+    data: [],
     loading: false,
     error: ""
   };
   
-const tabReducer = (state = initState, action) => {
+const cardsReducer = (state = initState, action) => {
     switch (action.type) {
 
         case "FETCH_MOVIES_REQUEST":
@@ -16,7 +16,7 @@ const tabReducer = (state = initState, action) => {
         case "FETCH_MOVIES_SUCCESS":
             return {
                 ...state,
-                movies: action.movies,
+                data: action.data,
                 loading: false
             };
 
@@ -32,5 +32,5 @@ const tabReducer = (state = initState, action) => {
         }
     };
 
-export default tabReducer;
+export default cardsReducer;
   

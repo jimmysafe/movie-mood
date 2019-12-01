@@ -74,20 +74,20 @@ export const fetchMovie = (id) => {
 
 const fetchMoviesRequest = () => {
     return {
-      type: "FETCH_MOVIE_REQUEST"
+      type: "FETCH_MOVIES_REQUEST"
     };
   };
   
-const fetchMoviesSuccess = (movies) => {
+const fetchMoviesSuccess = (data) => {
     return {
-        type: "FETCH_MOVIE_SUCCESS",
-        movies
+        type: "FETCH_MOVIES_SUCCESS",
+        data
     };
 };
 
 const fetchMoviesFailed = error => {
     return {
-        type: "FETCH_MOVIE_FAILED",
+        type: "FETCH_MOVIES_FAILED",
         error
     };
 };
@@ -118,15 +118,76 @@ const horror = 27
 const thriller = 53
 const adventure = 12
 
+const getGenres = (color) => {
+    switch(color){
+        case "red":
+            return [action, romance, thriller, history]
+        case "pink":
+            return [family, animated, comedy, romance]
+        case "orange":
+            return [adventure, comedy, family, documentary]
+        case "yellow":
+            return [thriller, drama, comedy, crime]
+        case "green":
+            return [horror, scifi, documentary, mystery]
+        case "blue":
+            return [drama, scifi, mystery, thriller]
+        case "purple":
+            return [scifi, comedy, animated, fantasy]
+        default:
+            return ""
+    }
+}
+
+const baseGenreUrl = "https://api.themoviedb.org/3/discover/movie?with_genres="
+const finalUrlPart = `&api_key=${API_KEY}`
+
 export const fetchMovies = (color) => {
-    return async dispatch => {
-        try {
+    const genre = getGenres(color)
+    return dispatch => {
             dispatch(fetchMoviesRequest());
-            let res = await axios.get(`https://api.themoviedb.org/3/discover/movie?with_genres=18&api_key=${API_KEY}`)
-            dispatch(fetchMoviesSuccess(res.data));
-        }
-        catch(err){
-            dispatch(fetchMoviesFailed(err));
-        }
-    };
+            // MAKES 4 REQs FOR 4 SELECTED GENRES
+            axios.all([
+                axios.get(`${baseGenreUrl}${genre[0]}${finalUrlPart}`),
+                axios.get(`${baseGenreUrl}${genre[1]}${finalUrlPart}`),
+                axios.get(`${baseGenreUrl}${genre[2]}${finalUrlPart}`),
+                axios.get(`${baseGenreUrl}${genre[3]}${finalUrlPart}`)
+            ])
+            // SET THE RESPONSE TO AN ARRAY WITH 5 MOVIES FOR EACH CATEGORY
+            .then(axios.spread((genre1, genre2, genre3, genre4) => {
+                let allMovies = [
+                    ...genre1.data.results.slice(0, 5), 
+                    ...genre2.data.results.slice(0, 5), 
+                    ...genre3.data.results.slice(0, 5), 
+                    ...genre4.data.results.slice(0, 5)
+                ]
+            // REMOVES DUPLICATES MOVIES FROM RESPONSE
+                let uniqueMovies = Array.from(new Set(allMovies.map(m => m.original_title)))
+                .map(title => {
+                    return allMovies.find(m => m.original_title === title)
+                })
+            // Fisher Yates Algorithm: SHUFFLE RANDOMPLY MOVIES INSIDE ARRAY
+                for(let i = uniqueMovies.length -1; i > 0; i--){
+                    const j = Math.floor(Math.random() * i)
+                    const temp = uniqueMovies[i]
+                    uniqueMovies[i] = uniqueMovies[j]
+                    uniqueMovies[j] = temp
+                }
+                dispatch(fetchMoviesSuccess(uniqueMovies));
+            }))
+            .catch(err => dispatch(fetchMoviesFailed(err)))
+    }
 };
+
+/**
+|--------------------------------------------------
+| FAVOURITES
+|--------------------------------------------------
+*/
+
+export const addToFav = (newFav) => {
+    return {
+        type: "ADD_TO_FAVOURITES",
+        newFav
+    }
+}

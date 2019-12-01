@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import SwiperView from './components/SwiperView'
 import ColorSelection from './components/ColorSelection'
+import Favourites from './components/Favourites'
 
 import thunk from 'redux-thunk'
 import * as Font from 'expo-font';
@@ -12,6 +13,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
+
 const MainNavigator = createStackNavigator({
   Home: {screen: ColorSelection,
     navigationOptions: {
@@ -20,8 +22,11 @@ const MainNavigator = createStackNavigator({
   Swiper: {screen: SwiperView, 
     navigationOptions: {
       header: null
-    }
-  }
+    }},
+  Favs: {screen: Favourites,
+    navigationOptions: {
+      header: null
+    }}
 });
 
 const Root = createAppContainer(MainNavigator);

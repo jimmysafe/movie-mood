@@ -1,39 +1,50 @@
 import React from 'react'
-import { View, Button, Text, Dimensions, TouchableOpacity, Image } from 'react-native'
+import { View, Dimensions, StyleSheet } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { fetchMovie } from '../actions'
+import Button from './Button';
 
-const SwiperButtons = ({ cards, cardIndex }) => {
+let width = Dimensions.get('window').width; //full width
 
+const SwiperButtons = ({ cards, cardIndex, navigate }) => {
+    
     const dispatch = useDispatch()
+    const fetch = () => {
+        dispatch(fetchMovie(cards[cardIndex].id))
+    }
 
-    let width = Dimensions.get('window').width; //full width
 
     return (
-        <View style={{ 
-                position: "absolute", 
-                bottom: 0, 
-                left: 0, 
-                width,
-                paddingVertical: 15,
-                paddingHorizontal: 30,
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "center"
-            }}>
-            <TouchableOpacity onPress={() => {dispatch(fetchMovie(cards[cardIndex].id))}} style={{
-                backgroundColor: 'white',
-                padding: 2,
-                borderRadius: 50
-            }}>
-                <Image 
-                    style={{ width: 30, height: 30 }}
-                    source= {require('../assets/info.png')}
-                />
-            </TouchableOpacity>
-
+        <View style={styles.main}>
+            <Button 
+                action={() => console.log("shuffle")}
+                imgSource={require('../assets/shuffle.png')}
+            />
+            <Button 
+                action={() => fetch()}
+                imgSource={require('../assets/info.png')}
+            />
+            <Button 
+                action={() => navigate('Favs')}
+                imgSource={require('../assets/favourites.png')}
+            />
         </View>
     )
 }
 
 export default SwiperButtons
+
+const styles = StyleSheet.create({
+    main: {
+        position: "absolute", 
+        bottom: 0, 
+        left: 0, 
+        width,
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-evenly"
+    }
+})
+
