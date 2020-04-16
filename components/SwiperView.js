@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Text, View, Platform } from 'react-native'
+import { Text, View, Platform, TouchableOpacity } from 'react-native'
 import CardView from './CardView'
 import SwiperButtons from './SwiperButtons.js'
 import MovieTab from './MovieTab.js'
 import ColorLights from './ColorLights'
-import { fetchMovies, addToFav } from '../actions'
+import { fetchMovies, addToFav, fetchMovie } from '../actions'
 import { useSelector, useDispatch } from 'react-redux'
+import Youtube from './Youtube'
+import Reactotron from 'reactotron-react-native'
 
 const SwiperView = ({ navigation }) =>  {
   const dispatch = useDispatch()
-  const movies = useSelector(state => state.cards.data)
+  const cards = useSelector(state => state.cards.data)  
 
-  const [cards, setCards] = useState([])
   const [cardIndex, setCardIndex] = useState(0)
   const [swipedAllCards, setSwipedAllCards] = useState(false)
   const [showGreen, setShowGreen] = useState(false)
   const [showRed, setShowRed] = useState(false)
+  const [youtube, setYoutube] = useState(false)
 
   useEffect(() => {
     dispatch(fetchMovies(navigation.state.params.color))
   }, [])
-  
-  useEffect(() => {
-    setCards(movies)
-  }, [movies])
+
 
   const renderCard = (card, index) => {
     if(card){
@@ -35,14 +34,19 @@ const SwiperView = ({ navigation }) =>  {
   };
 
   const onSwiped = (type) => {
-    setCardIndex(cardIndex + 1)
     if(type === "right"){
+      setCardIndex(cardIndex + 1)
       let savedMovie = cards[cardIndex]
       dispatch(addToFav(savedMovie))
       setShowGreen(false)
     }
     else if(type === "left"){
+      setCardIndex(cardIndex + 1)
       setShowRed(false)
+    }
+    else if(type === "tap"){
+      Reactotron.log(cards[cardIndex])
+      dispatch(fetchMovie(cards[cardIndex].id))
     }
   };
 
@@ -66,6 +70,7 @@ const SwiperView = ({ navigation }) =>  {
     }
   };
 
+
     return (
         <View style={{ 
           flex: 1
@@ -77,12 +82,12 @@ const SwiperView = ({ navigation }) =>  {
               onSwipedAborted={() => aborted()}
               onSwipedLeft={() => onSwiped('left')}
               onSwipedRight={() => onSwiped('right')}
-              onTapCard={() => onSwiped('TAPPED')}
+              onTapCard={() => onSwiped('tap')}
               cards={cards}
               cardIndex={cardIndex}
               cardVerticalMargin={80}
               renderCard={renderCard}
-              onSwipedAll={onSwipedAllCards}
+              onSwipedAll={() => onSwipedAllCards()}
               stackSize={3}
               stackSeparation={20}
               animateCardOpacity={false}
@@ -98,7 +103,10 @@ const SwiperView = ({ navigation }) =>  {
             { showGreen && 
               <ColorLights choice="yes"/>
             }
-            <MovieTab />
+            <MovieTab setYoutube={setYoutube}/>
+            { youtube && 
+              <Youtube />
+            }
       </View>
     )
 }

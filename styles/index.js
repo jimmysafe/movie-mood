@@ -17,6 +17,15 @@ export const Title = styled.Text`
 	color: grey;
 `;
 
+export const Key = styled.Text`
+    font-family:'montserrat-medium';
+    text-transform: uppercase;
+	font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+	color: grey;
+`;
+
 export const Card = styled.View`
     flex: 10;
     border-radius: 15;
@@ -33,5 +42,5 @@ export const Badge = styled.View`
     padding: 3px 10px;
     border-radius: 20;
     color: white;
-    background-color: #2d232e;
+    background-color: ${props => props.red ? '#F4442E' : '#2d232e'};
 `;

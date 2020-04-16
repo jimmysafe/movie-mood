@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_KEY } from 'react-native-dotenv'
-
+import Reactotron from 'reactotron-react-native'
 /**
 |--------------------------------------------------
 | OPENS AND CLOSE INFO MOVIE TAB IN THE SWIPER
@@ -50,13 +50,11 @@ export const fetchMovie = (id) => {
     return async dispatch => {
         try {
             dispatch(fetchMovieRequest());
-            let res = await axios.all([
-                axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`),
-                axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`),
-            ])
-            const movie = res[0].data
-            const cast = res[1].data.cast
-            dispatch(fetchMovieSuccess(movie, cast));
+            const res = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=videos,credits`)
+            const cast = res.data.credits.cast
+            delete res.data.credits
+            const movie = res.data
+            await dispatch(fetchMovieSuccess(movie, cast));
             dispatch(openTab())
         }
         catch(err){
@@ -139,19 +137,17 @@ const getGenres = (color) => {
     }
 }
 
-const baseGenreUrl = "https://api.themoviedb.org/3/discover/movie?with_genres="
-const finalUrlPart = `&api_key=${API_KEY}`
-
 export const fetchMovies = (color) => {
+    const baseGenreUrl = "https://api.themoviedb.org/3/discover/movie?with_genres="
     const genre = getGenres(color)
     return dispatch => {
             dispatch(fetchMoviesRequest());
             // MAKES 4 REQs FOR 4 SELECTED GENRES
             axios.all([
-                axios.get(`${baseGenreUrl}${genre[0]}${finalUrlPart}`),
-                axios.get(`${baseGenreUrl}${genre[1]}${finalUrlPart}`),
-                axios.get(`${baseGenreUrl}${genre[2]}${finalUrlPart}`),
-                axios.get(`${baseGenreUrl}${genre[3]}${finalUrlPart}`)
+                axios.get(`${baseGenreUrl}${genre[0]}&page=${Math.floor(Math.random() * 3) + 1}&api_key=${API_KEY}`),
+                axios.get(`${baseGenreUrl}${genre[1]}&page=${Math.floor(Math.random() * 3) + 1}&api_key=${API_KEY}`),
+                axios.get(`${baseGenreUrl}${genre[2]}&page=${Math.floor(Math.random() * 3) + 1}&api_key=${API_KEY}`),
+                axios.get(`${baseGenreUrl}${genre[3]}&page=${Math.floor(Math.random() * 3) + 1}&api_key=${API_KEY}`)
             ])
             // SET THE RESPONSE TO AN ARRAY WITH 5 MOVIES FOR EACH CATEGORY
             .then(axios.spread((genre1, genre2, genre3, genre4) => {

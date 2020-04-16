@@ -5,14 +5,15 @@ import Favourites from './components/Favourites'
 
 import thunk from 'redux-thunk'
 import * as Font from 'expo-font';
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers";
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import Reactotron from './ReactotronConfig'
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
 
+const store = createStore(rootReducer, compose(applyMiddleware(thunk), Reactotron.createEnhancer()));
 
 const MainNavigator = createStackNavigator({
   Home: {screen: ColorSelection,
