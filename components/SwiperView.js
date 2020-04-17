@@ -8,6 +8,7 @@ import ColorLights from './ColorLights'
 import { fetchMovies, addToFav, fetchMovie } from '../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import Youtube from './Youtube'
+import FinishedSwipe from './FinishedSwipe'
 import Reactotron from 'reactotron-react-native'
 
 const SwiperView = ({ navigation }) =>  {
@@ -15,7 +16,6 @@ const SwiperView = ({ navigation }) =>  {
   const cards = useSelector(state => state.cards.data)  
 
   const [cardIndex, setCardIndex] = useState(0)
-  const [swipedAllCards, setSwipedAllCards] = useState(false)
   const [showGreen, setShowGreen] = useState(false)
   const [showRed, setShowRed] = useState(false)
   const [youtube, setYoutube] = useState(false)
@@ -24,7 +24,12 @@ const SwiperView = ({ navigation }) =>  {
     dispatch(fetchMovies(navigation.state.params.color))
   }, [])
 
-
+  useEffect(() => {
+    if(cardIndex + 1 === cards.length){
+      setTimeout(() => navigation.navigate('Finished'), 700)
+    }
+  }, [cardIndex])
+ 
   const renderCard = (card, index) => {
     if(card){
       return (
@@ -50,9 +55,7 @@ const SwiperView = ({ navigation }) =>  {
     }
   };
 
-  const onSwipedAllCards = () => {
-    setSwipedAllCards(true)
-  };
+
 
   const aborted = () => {
     setShowRed(false)
@@ -70,44 +73,42 @@ const SwiperView = ({ navigation }) =>  {
     }
   };
 
+  console.log(cardIndex + 1 === cards.length)
+
 
     return (
-        <View style={{ 
-          flex: 1
-         }}>
-            <Swiper
-              useViewOverflow={Platform.OS === 'ios'}
-              verticalSwipe={false}
-              onSwiping={(x) => swiping(x)}
-              onSwipedAborted={() => aborted()}
-              onSwipedLeft={() => onSwiped('left')}
-              onSwipedRight={() => onSwiped('right')}
-              onTapCard={() => onSwiped('tap')}
-              cards={cards}
-              cardIndex={cardIndex}
-              cardVerticalMargin={80}
-              renderCard={renderCard}
-              onSwipedAll={() => onSwipedAllCards()}
-              stackSize={3}
-              stackSeparation={20}
-              animateCardOpacity={false}
-              swipeBackCard={false}
-              backgroundColor= {"#313131"}
-            >
-                        {swipedAllCards && <Text style={{ fontSize: 40}}>Finished!</Text>}
-            </Swiper>
-            <SwiperButtons cards={cards} cardIndex={cardIndex} navigate={navigation.navigate}/>
-            { showRed &&  
-              <ColorLights choice="no"/>
-            }
-            { showGreen && 
-              <ColorLights choice="yes"/>
-            }
-            <MovieTab setYoutube={setYoutube}/>
-            { youtube && 
-              <Youtube />
-            }
-      </View>
+          <View style={{flex: 1}}>
+              <Swiper
+                useViewOverflow={Platform.OS === 'ios'}
+                verticalSwipe={false}
+                onSwiping={(x) => swiping(x)}
+                onSwipedAborted={() => aborted()}
+                onSwipedLeft={() => onSwiped('left')}
+                onSwipedRight={() => onSwiped('right')}
+                //onTapCard={() => onSwiped('tap')}
+                cards={cards && cards}
+                cardIndex={cardIndex}
+                cardVerticalMargin={80}
+                renderCard={renderCard}
+                stackSize={3}
+                stackSeparation={20}
+                animateCardOpacity={false}
+                swipeBackCard={false}
+                backgroundColor= {"#313131"}
+              />
+                        
+              <SwiperButtons cards={cards} cardIndex={cardIndex} navigate={navigation.navigate}/>
+              { showRed &&  
+                <ColorLights choice="no"/>
+              }
+              { showGreen && 
+                <ColorLights choice="yes"/>
+              }
+              <MovieTab setYoutube={setYoutube}/>
+              { youtube && 
+                <Youtube youtube={youtube} setYoutube={setYoutube}/>
+              }
+        </View>
     )
 }
 

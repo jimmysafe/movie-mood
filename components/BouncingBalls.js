@@ -24,6 +24,8 @@ class BouncingBalls extends PureComponent {
     };
   }
 
+
+
   componentDidMount() {
     this.traverseCircles();
   }

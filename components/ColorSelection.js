@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import BouncingBalls from './BouncingBalls'
+//import Balls from './Balls'
 
 const ColorSelection = (props) => {
     const { navigate } = props.navigation
@@ -9,11 +10,11 @@ const ColorSelection = (props) => {
         <View style={{ flex: 1, backgroundColor: "#313131", justifyContent: "center", alignItems: "center" }}>
             <BouncingBalls
                 amount={7}
-                animationDuration={5000}
-                minSpeed={30}
-                maxSpeed={200}
-                minSize={60}
-                maxSize={120}
+                animationDuration={4000}
+                minSpeed={200}
+                maxSpeed={300}
+                minSize={110}
+                maxSize={140}
                 navigate={navigate}
             />  
         </View>

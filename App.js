@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SwiperView from './components/SwiperView'
 import ColorSelection from './components/ColorSelection'
 import Favourites from './components/Favourites'
+import GenreList from './components/GenreList'
 
 import thunk from 'redux-thunk'
 import * as Font from 'expo-font';
@@ -11,6 +12,7 @@ import rootReducer from "./reducers";
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import Reactotron from './ReactotronConfig'
+import FinishedSwipe from './components/FinishedSwipe'
 
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk), Reactotron.createEnhancer()));
@@ -25,6 +27,14 @@ const MainNavigator = createStackNavigator({
       header: null
     }},
   Favs: {screen: Favourites,
+    navigationOptions: {
+      header: null
+    }},
+  Genres: {screen: GenreList,
+    navigationOptions: {
+      header: null
+    }},
+  Finished: {screen: FinishedSwipe,
     navigationOptions: {
       header: null
     }}

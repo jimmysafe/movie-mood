@@ -7,14 +7,23 @@ export const Container = styled.View`
 	align-items: center;
 `;
 
+export const Heading = styled.Text`
+    font-family:'montserrat-medium';
+    text-transform: uppercase;
+	font-size: ${props => props.xl ? '42px' : '18px'};
+    font-weight: 500;
+    text-align: center;
+	color: white;
+`;
+
+
 export const Title = styled.Text`
-    flex: 1;
     font-family:'montserrat-medium';
     text-transform: uppercase;
 	font-size: 14px;
     font-weight: 500;
     text-align: center;
-	color: grey;
+	color: ${props => props.white ? 'white' : 'grey'};
 `;
 
 export const Key = styled.Text`
