@@ -22,7 +22,7 @@ export const Title = styled.Text`
     text-transform: uppercase;
 	font-size: 14px;
     font-weight: 500;
-    text-align: center;
+    text-align: ${props => props.left ? 'left' : 'center'};
 	color: ${props => props.white ? 'white' : 'grey'};
 `;
 
@@ -46,6 +46,7 @@ export const Card = styled.View`
     shadow-radius: 5;
     elevation: 5;
 `;
+
 
 export const Badge = styled.View`
     padding: 3px 10px;

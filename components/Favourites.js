@@ -1,25 +1,36 @@
-import React from 'react'
-import CardView from './CardView'
-import { FlatList, View, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import FavCardView from './FavCardView'
+import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
+import { Title } from '../styles'
+import MovieTab from './MovieTab'
+import Youtube from './Youtube'
 
-const Favourites = () => {
+const Favourites = ({ navigation }) => {
     
     const favourites = useSelector(state => state.favs.favourites)
+    const [youtube, setYoutube] = useState(false)
 
     return (
         <View style={styles.main}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
+                <Title white left>BACK</Title>
+            </TouchableOpacity>
             <FlatList
                 columnWrapperStyle={styles.container}
                 numColumns={2}
                 data={favourites}
                 renderItem={({ item }) => (
                     <View style={styles.listView}>
-                        <CardView card={item}/>
+                        <FavCardView card={item}/>
                     </View>
                 )}
                 keyExtractor={item => item.id}
             />
+            <MovieTab setYoutube={setYoutube}/>
+            { youtube && 
+            <Youtube youtube={youtube} setYoutube={setYoutube}/>
+            }
         </View>
     )
 }
@@ -43,5 +54,14 @@ const styles = StyleSheet.create({
         padding: 4,
         height: 350,
         flex: 1
+    },
+    back: {
+        paddingHorizontal: 20, 
+        marginTop: 50,
+        marginBottom: 10,
+    },
+    image: {
+        width: 30, 
+        height: 30
     }
 })

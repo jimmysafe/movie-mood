@@ -59,7 +59,6 @@ const SwiperView = ({ navigation }) =>  {
       setShowRed(false)
     }
     else if(type === "tap"){
-      Reactotron.log(cards[cardIndex])
       dispatch(fetchMovie(cards[cardIndex].id))
     }
   };
