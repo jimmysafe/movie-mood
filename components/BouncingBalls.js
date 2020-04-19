@@ -140,7 +140,7 @@ class BouncingBalls extends PureComponent {
       let clr = moods[i].color
 
       item = <TouchableOpacity onPress={() => onClickAction(clr)} style={[styles.circle, {...innerStyle}, {...newStyle}]} {...restStyles} {...restProps} />
-
+      // item = <Ball clr={clr} styles={[styles.circle, {...innerStyle}, {...newStyle}]} {...restStyles} {...restProps} />
       circles.push(item);
     }
 

@@ -187,3 +187,47 @@ export const addToFav = (newFav) => {
         newFav
     }
 }
+
+/**
+|--------------------------------------------------
+| FETCH GENRE IN THE SWIPER TO RENDER CARDS
+|--------------------------------------------------
+*/
+
+const fetchGenreRequest = () => {
+    return {
+      type: "FETCH_GENRE_REQUEST"
+    };
+  };
+  
+const fetchGenreSuccess = (data) => {
+    return {
+        type: "FETCH_GENRE_SUCCESS",
+        data
+    };
+};
+
+const fetchGenreFailed = error => {
+    return {
+        type: "FETCH_GENRE_FAILED",
+        error
+    };
+};
+
+export const fetchGenre = (id) => {
+    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&api_key=${API_KEY}`
+    return dispatch => {
+            dispatch(fetchGenreRequest());
+            axios
+            .get(url)
+            .then(res => dispatch(fetchGenreSuccess(res.data.results)))
+            .catch(err => dispatch(fetchGenreFailed(err)))
+    }
+};
+
+
+export const resetData = () => {
+    return {
+        type: 'RESET_DATA'
+    }
+}

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native'
 import { API_KEY } from 'react-native-dotenv'
 import { Title } from '../styles'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
+import { fetchGenre } from '../actions'
 
-const GenreList = (props) => {
-    const { navigate } = props.navigation
+const GenreList = ({ navigation }) => {
     const dispatch = useDispatch()
     const [genres, setGenres] = useState([])
     useEffect(() => {
@@ -16,16 +16,21 @@ const GenreList = (props) => {
         })()
     }, [])
 
-    console.log(genres)
+    const handleSelection = async(id) => {
+        // dispatch action to replace cards
+        await dispatch(fetchGenre(id))
+        navigation.replace('Swiper')
+        // redirect
+    }
 
     return (
         <View style={{ flex: 1, paddingVertical: 20, backgroundColor: '#313131', alignItems: "center" }}>
             <FlatList
                 data={genres && genres}
                 renderItem={({item}) => (
-                    <View style={styles.item}>
+                    <TouchableOpacity style={styles.item} onPress={() => handleSelection(item.id)}>
                         <Title>{item.name}</Title>
-                    </View>
+                    </TouchableOpacity>
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />

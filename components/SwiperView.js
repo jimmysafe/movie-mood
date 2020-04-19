@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Swiper from 'react-native-deck-swiper'
 import { Text, View, Platform, TouchableOpacity } from 'react-native'
 import CardView from './CardView'
 import SwiperButtons from './SwiperButtons.js'
 import MovieTab from './MovieTab.js'
 import ColorLights from './ColorLights'
-import { fetchMovies, addToFav, fetchMovie } from '../actions'
+import { fetchMovies, addToFav, fetchMovie, resetData } from '../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import Youtube from './Youtube'
-import FinishedSwipe from './FinishedSwipe'
 import Reactotron from 'reactotron-react-native'
 
 const SwiperView = ({ navigation }) =>  {
@@ -20,13 +19,23 @@ const SwiperView = ({ navigation }) =>  {
   const [showRed, setShowRed] = useState(false)
   const [youtube, setYoutube] = useState(false)
 
+
   useEffect(() => {
-    dispatch(fetchMovies(navigation.state.params.color))
+    if(navigation.state.params){
+      dispatch(fetchMovies(navigation.state.params.color))
+    }
+    return () => {
+      Reactotron.log("SWIPER UNMOUNTED!")
+    }
   }, [])
+
+  Reactotron.log(cardIndex)
 
   useEffect(() => {
     if(cardIndex + 1 === cards.length){
-      setTimeout(() => navigation.navigate('Finished'), 700)
+      dispatch(resetData())
+      setCardIndex(0)
+      setTimeout(() => navigation.replace('Finished'), 700)
     }
   }, [cardIndex])
  
@@ -72,9 +81,6 @@ const SwiperView = ({ navigation }) =>  {
       setShowGreen(false)
     }
   };
-
-  console.log(cardIndex + 1 === cards.length)
-
 
     return (
           <View style={{flex: 1}}>
