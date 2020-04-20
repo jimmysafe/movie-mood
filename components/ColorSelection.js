@@ -1,12 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
 import BouncingBalls from './BouncingBalls'
-//import Balls from './Balls'
+import TabNav from './TabNav'
 
 const ColorSelection = (props) => {
     const { navigate } = props.navigation
 
     return (
+        <>
         <View style={{ flex: 1, backgroundColor: "#313131", justifyContent: "center", alignItems: "center" }}>
             <BouncingBalls
                 amount={7}
@@ -18,6 +19,8 @@ const ColorSelection = (props) => {
                 navigate={navigate}
             />  
         </View>
+        <TabNav {...props}/>
+        </>
     )
 }
 

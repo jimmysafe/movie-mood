@@ -4,8 +4,6 @@ import Carousel from 'react-native-snap-carousel';
 
 const ActorsSlider = ({ cast }) => {
 
-    let width = Dimensions.get('window').width; 
-
     const renderItem = ({ item, index }) => {
         return (
             <View style={{ 

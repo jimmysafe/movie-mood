@@ -2,7 +2,8 @@ export const initState = {
     open: false,
     movie: {},
     cast: [],
-    error: ""
+    loading: false,
+    error: "",
   };
   
 const tabReducer = (state = initState, action) => {
@@ -22,12 +23,14 @@ const tabReducer = (state = initState, action) => {
 
         case "FETCH_MOVIE_REQUEST":
             return {
-                ...state
+                ...state,
+                loading: true
             };
 
         case "FETCH_MOVIE_SUCCESS":
             return {
                 ...state,
+                loading: false,
                 movie: action.movie,
                 cast: action.cast
             };
@@ -35,6 +38,7 @@ const tabReducer = (state = initState, action) => {
         case "FETCH_MOVIE_FAILED":
             return {
                 ...state,
+                loading: false,
                 error: action.payload
             };
         

@@ -3,14 +3,12 @@ import Swiper from 'react-native-deck-swiper'
 import { Text, View, Platform, TouchableOpacity } from 'react-native'
 import CardView from './CardView'
 import SwiperButtons from './SwiperButtons.js'
-import MovieTab from './MovieTab.js'
 import ColorLights from './ColorLights'
 import { fetchMovies, addToFav, fetchMovie, resetData } from '../actions'
 import { useSelector, useDispatch } from 'react-redux'
-import Youtube from './Youtube'
 import Reactotron from 'reactotron-react-native'
 
-const SwiperView = ({ navigation }) =>  {
+const SwiperView = ({ navigation, route }) =>  {
   const dispatch = useDispatch()
   const cards = useSelector(state => state.cards.data)  
 
@@ -21,8 +19,8 @@ const SwiperView = ({ navigation }) =>  {
 
 
   useEffect(() => {
-    if(navigation.state.params){
-      dispatch(fetchMovies(navigation.state.params.color))
+    if(route.params){
+      dispatch(fetchMovies(route.params.color))
     }
     return () => {
       Reactotron.log("SWIPER UNMOUNTED!")
@@ -59,7 +57,7 @@ const SwiperView = ({ navigation }) =>  {
       setShowRed(false)
     }
     else if(type === "tap"){
-      dispatch(fetchMovie(cards[cardIndex].id))
+      navigation.push('Movie', { movieId: cards[cardIndex].id})
     }
   };
 
@@ -108,10 +106,6 @@ const SwiperView = ({ navigation }) =>  {
               }
               { showGreen && 
                 <ColorLights choice="yes"/>
-              }
-              <MovieTab setYoutube={setYoutube}/>
-              { youtube && 
-                <Youtube youtube={youtube} setYoutube={setYoutube}/>
               }
         </View>
     )

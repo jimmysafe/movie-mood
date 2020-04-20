@@ -16,7 +16,7 @@ class BouncingBalls extends PureComponent {
     super(props);
 
     this.screenWidth = Dimensions.get('window').width;
-    this.screenHeight = Dimensions.get('window').height;
+    this.screenHeight = Dimensions.get('window').height - 50;
     this.circles = this.generateCircles();
 
     this.state = {

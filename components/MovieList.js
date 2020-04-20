@@ -3,17 +3,17 @@ import FavCardView from './FavCardView'
 import { FlatList, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { Title } from '../styles'
-import MovieTab from './MovieTab'
-import Youtube from './Youtube'
 import { fetchMoreMovies, resetData } from '../actions'
 import Loader from './Loader';
+import TabNav from './TabNav'
 
-const MovieList = ({ navigation }) => {
+const MovieList = (props) => {
+    const { navigation } = props
+
     const dispatch = useDispatch()
     const flatListRef = useRef(null)
 
     const [page, setPage] = useState(1)
-    const [youtube, setYoutube] = useState(false)
     
     const loading = useSelector(state => state.cards.loading)
     const cards = useSelector(state => state.cards.data)
@@ -52,15 +52,12 @@ const MovieList = ({ navigation }) => {
                 data={cards}
                 renderItem={({ item }) => (
                     <View style={styles.listView}>
-                        <FavCardView card={item}/>
+                        <FavCardView card={item} {...props} />
                     </View>
                 )}
                 keyExtractor={item => item.id}
             />
-            <MovieTab setYoutube={setYoutube}/>
-            { youtube && 
-            <Youtube youtube={youtube} setYoutube={setYoutube}/>
-            }
+            <TabNav {...props} />
         </View>
     )
 }

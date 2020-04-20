@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, FlatList, TouchableOpacity, Dimensions } from 'react-native'
 import { API_KEY } from 'react-native-dotenv'
 import { Title } from '../styles'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { fetchGenre, resetData } from '../actions'
-import TabNavigator from './TabNavigator'
+import TabNav from './TabNav'
 
-const GenreList = ({ navigation }) => {
+
+let width = Dimensions.get('window').width; 
+
+const GenreList = (props) => {
+    const { navigation } = props
     const dispatch = useDispatch()
     const [genres, setGenres] = useState([])
     useEffect(() => {
@@ -18,16 +22,16 @@ const GenreList = ({ navigation }) => {
     }, [])
 
     const handleSelection = async(id) => {
-        // dispatch action to replace cards
         await dispatch(resetData())
         await dispatch(fetchGenre(id))
-        navigation.replace('MovieList')
-        // redirect
+        navigation.push('MovieList')
     }
 
     return (
-        <View style={{ flex: 1, paddingVertical: 20, backgroundColor: '#313131', alignItems: "center" }}>
+        <>
+        <View style={{ flex: 1, paddingTop: 20, paddingBottom: 5,  backgroundColor: '#313131', alignItems: "center" }}>
             <FlatList
+                style={{ width, marginTop: 30 }}
                 data={genres && genres}
                 renderItem={({item}) => (
                     <TouchableOpacity style={styles.item} onPress={() => handleSelection(item.id)}>
@@ -36,19 +40,19 @@ const GenreList = ({ navigation }) => {
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />
-            <TabNavigator />
         </View>
+        <TabNav {...props}/>
+        </>
     )
 }
 
 const styles = StyleSheet.create({
     item: {
         marginVertical: 10,
-        paddingHorizontal: 20,
         paddingVertical: 10,
         backgroundColor: 'white',
         borderRadius: 20,
-        width: 230
+        marginHorizontal: 50
     }
 })
 

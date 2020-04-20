@@ -3,13 +3,10 @@ import FavCardView from './FavCardView'
 import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 import { Title } from '../styles'
-import MovieTab from './MovieTab'
-import Youtube from './Youtube'
 
-const Favourites = ({ navigation }) => {
-    
+const Favourites = (props) => {
+    const { navigation } = props
     const favourites = useSelector(state => state.favs.favourites)
-    const [youtube, setYoutube] = useState(false)
 
     return (
         <View style={styles.main}>
@@ -22,15 +19,11 @@ const Favourites = ({ navigation }) => {
                 data={favourites}
                 renderItem={({ item }) => (
                     <View style={styles.listView}>
-                        <FavCardView card={item}/>
+                        <FavCardView card={item} {...props}/>
                     </View>
                 )}
                 keyExtractor={item => item.id}
             />
-            <MovieTab setYoutube={setYoutube}/>
-            { youtube && 
-            <Youtube youtube={youtube} setYoutube={setYoutube}/>
-            }
         </View>
     )
 }

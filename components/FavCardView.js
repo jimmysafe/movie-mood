@@ -5,10 +5,11 @@ import StarRating from 'react-native-star-rating';
 import { fetchMovie } from '../actions'
 import { useDispatch } from 'react-redux';
 
-const FavCardView = ({ card }) => {
+const FavCardView = (props) => {
+    const { card, navigation } = props
     const dispatch = useDispatch()
     return (
-    <TouchableOpacity style={styles.touchable} onPress={() => dispatch(fetchMovie(card.id))}>
+    <TouchableOpacity style={styles.touchable} onPress={() => navigation.push('Movie', { movieId: card.id})}>
         <View style={{ flex: 9, overflow: "hidden", borderTopLeftRadius: 15, borderTopRightRadius: 15, }}>
             <Image 
                 resizeMode="cover"
