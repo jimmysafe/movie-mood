@@ -255,6 +255,7 @@ const fetchMoreMoviesFailed = error => {
 
 
 export const fetchMoreMovies = (id, pageN) => {
+    console.log(pageN)
     const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${pageN}&api_key=${API_KEY}`
     return dispatch => {
             dispatch(fetchMoreMoviesRequest());

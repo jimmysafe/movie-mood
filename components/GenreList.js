@@ -5,6 +5,7 @@ import { Title } from '../styles'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { fetchGenre, resetData } from '../actions'
+import TabNavigator from './TabNavigator'
 
 const GenreList = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const GenreList = ({ navigation }) => {
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />
+            <TabNavigator />
         </View>
     )
 }

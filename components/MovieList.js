@@ -1,35 +1,54 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import FavCardView from './FavCardView'
 import { FlatList, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { useScrollToTop } from '@react-navigation/native';
 import { Title } from '../styles'
 import MovieTab from './MovieTab'
 import Youtube from './Youtube'
-import { fetchMoreMovies } from '../actions'
+import { fetchMoreMovies, resetData } from '../actions'
+import Loader from './Loader';
 
 const MovieList = ({ navigation }) => {
     const dispatch = useDispatch()
-    const scrollViewRef = useRef(null)
+    const flatListRef = useRef(null)
+
     const [page, setPage] = useState(1)
+    const [youtube, setYoutube] = useState(false)
+    
+    const loading = useSelector(state => state.cards.loading)
     const cards = useSelector(state => state.cards.data)
     const genreId = useSelector(state => state.cards.genreId)
-    const [youtube, setYoutube] = useState(false)
 
-    const changePage = (genreId) => {
-        setPage(page + 1)
-        //useScrollToTop(scrollViewRef)
-        // dispatch(fetchMoreMovies(genreId, page))
-    }
+    useEffect(() => {
+        dispatch(fetchMoreMovies(genreId, page))
+    }, [page])
+
+    const listFooter =  () => {
+    return (
+        <View style={{ flex: 1, flexDirection:'row', justifyContent:'space-between', alignItems:'center', padding: 20 }}>
+            {page !== 1 &&
+            <TouchableOpacity onPress={() => setPage(page - 1)}>
+                <Title white>Previous Page</Title>
+            </TouchableOpacity>
+            }
+            <TouchableOpacity onPress={() => setPage(page + 1)}>
+                <Title white>Next Page</Title>
+            </TouchableOpacity>
+        </View>
+    )}
+
+    if(loading) return <Loader />
 
     return (
-        <ScrollView style={styles.main} ref={scrollViewRef}>
+        <View style={styles.main}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
                 <Title white left>BACK</Title>
             </TouchableOpacity>
             <FlatList
+                ref={flatListRef}
                 columnWrapperStyle={styles.container}
                 numColumns={2}
+                ListFooterComponent={listFooter}
                 data={cards}
                 renderItem={({ item }) => (
                     <View style={styles.listView}>
@@ -38,14 +57,11 @@ const MovieList = ({ navigation }) => {
                 )}
                 keyExtractor={item => item.id}
             />
-            <TouchableOpacity onPress={() => changePage(genreId)}>
-               <Title white>Load More</Title>
-            </TouchableOpacity>
             <MovieTab setYoutube={setYoutube}/>
             { youtube && 
             <Youtube youtube={youtube} setYoutube={setYoutube}/>
             }
-        </ScrollView>
+        </View>
     )
 }
 

@@ -70,7 +70,8 @@ const cardsReducer = (state = initState, action) => {
         case 'LOAD_MORE_MOVIES_SUCCESS':
             return {
                 ...state,
-                data: [...state.data, ...action.data]
+                data: action.data,
+                loading: false
             };
 
         case "LOAD_MORE_MOVIES_FAILED":

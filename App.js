@@ -15,10 +15,13 @@ import Reactotron from './ReactotronConfig'
 import FinishedSwipe from './components/FinishedSwipe'
 import MovieList from './components/MovieList'
 
-
 const store = createStore(rootReducer, compose(applyMiddleware(thunk), Reactotron.createEnhancer()));
 
 const MainNavigator = createStackNavigator({
+  Genres: {screen: GenreList,
+    navigationOptions: {
+      header: null
+    }},
   Home: {screen: ColorSelection,
     navigationOptions: {
       header: null
@@ -31,10 +34,10 @@ const MainNavigator = createStackNavigator({
     navigationOptions: {
       header: null
     }},
-  Genres: {screen: GenreList,
-    navigationOptions: {
-      header: null
-    }},
+  // Genres: {screen: GenreList,
+  //   navigationOptions: {
+  //     header: null
+  //   }},
   Finished: {screen: FinishedSwipe,
     navigationOptions: {
       header: null
