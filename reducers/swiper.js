@@ -1,7 +1,8 @@
 export const initState = {
     data: [],
     loading: false,
-    error: ""
+    error: "",
+    genreId: null
   };
   
 const cardsReducer = (state = initState, action) => {
@@ -53,6 +54,32 @@ const cardsReducer = (state = initState, action) => {
                 loading: false,
                 error: ""
             };
+
+        case 'SET_GENRE_ID':
+            return {
+                ...state,
+                genreId: action.id
+            };
+
+        case "LOAD_MORE_MOVIES_REQUEST":
+            return {
+                ...state,
+                loading: true
+            };
+
+        case 'LOAD_MORE_MOVIES_SUCCESS':
+            return {
+                ...state,
+                data: [...state.data, ...action.data]
+            };
+
+        case "LOAD_MORE_MOVIES_FAILED":
+            return {
+                ...state,
+                error: action.error,
+                loading: false
+            };
+
 
         default:
             return state;

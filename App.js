@@ -13,6 +13,7 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import Reactotron from './ReactotronConfig'
 import FinishedSwipe from './components/FinishedSwipe'
+import MovieList from './components/MovieList'
 
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk), Reactotron.createEnhancer()));
@@ -35,6 +36,10 @@ const MainNavigator = createStackNavigator({
       header: null
     }},
   Finished: {screen: FinishedSwipe,
+    navigationOptions: {
+      header: null
+    }},
+  MovieList: {screen: MovieList,
     navigationOptions: {
       header: null
     }}

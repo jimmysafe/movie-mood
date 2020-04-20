@@ -4,7 +4,7 @@ import { API_KEY } from 'react-native-dotenv'
 import { Title } from '../styles'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { fetchGenre } from '../actions'
+import { fetchGenre, resetData } from '../actions'
 
 const GenreList = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -18,8 +18,9 @@ const GenreList = ({ navigation }) => {
 
     const handleSelection = async(id) => {
         // dispatch action to replace cards
+        await dispatch(resetData())
         await dispatch(fetchGenre(id))
-        navigation.replace('Swiper')
+        navigation.replace('MovieList')
         // redirect
     }
 

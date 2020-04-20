@@ -90,7 +90,7 @@ const SwiperView = ({ navigation }) =>  {
                 onSwipedAborted={() => aborted()}
                 onSwipedLeft={() => onSwiped('left')}
                 onSwipedRight={() => onSwiped('right')}
-                //onTapCard={() => onSwiped('tap')}
+                onTapCard={() => onSwiped('tap')}
                 cards={cards && cards}
                 cardIndex={cardIndex}
                 cardVerticalMargin={80}

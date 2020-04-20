@@ -217,6 +217,7 @@ const fetchGenreFailed = error => {
 export const fetchGenre = (id) => {
     const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&api_key=${API_KEY}`
     return dispatch => {
+            dispatch(setQueriedGenre(id))
             dispatch(fetchGenreRequest());
             axios
             .get(url)
@@ -225,6 +226,55 @@ export const fetchGenre = (id) => {
     }
 };
 
+
+/**
+|--------------------------------------------------
+| FETCH MORE MOVIES IN MOVIELIST
+|--------------------------------------------------
+*/
+
+const fetchMoreMoviesRequest = () => {
+    return {
+      type: "LOAD_MORE_MOVIES_REQUEST"
+    };
+  };
+  
+const fetchMoreMoviesSuccess = (data) => {
+    return {
+        type: "LOAD_MORE_MOVIES_SUCCESS",
+        data
+    };
+};
+
+const fetchMoreMoviesFailed = error => {
+    return {
+        type: "LOAD_MORE_MOVIES_FAILED",
+        error
+    };
+};
+
+
+export const fetchMoreMovies = (id, pageN) => {
+    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${pageN}&api_key=${API_KEY}`
+    return dispatch => {
+            dispatch(fetchMoreMoviesRequest());
+            axios
+            .get(url)
+            .then(res => dispatch(fetchMoreMoviesSuccess(res.data.results)))
+            .catch(err => dispatch(fetchMoreMoviesFailed(err)))
+    }
+};
+
+
+
+
+
+const setQueriedGenre = (id) => {
+    return {
+        type: 'SET_GENRE_ID',
+        id
+    }
+}
 
 export const resetData = () => {
     return {
