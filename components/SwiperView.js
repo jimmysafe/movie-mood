@@ -7,15 +7,16 @@ import ColorLights from './ColorLights'
 import { fetchMovies, addToFav, fetchMovie, resetData } from '../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import Reactotron from 'reactotron-react-native'
+import Loader from './Loader'
 
 const SwiperView = ({ navigation, route }) =>  {
   const dispatch = useDispatch()
   const cards = useSelector(state => state.cards.data)  
+  const loading = useSelector(state => state.cards.loading)  
 
   const [cardIndex, setCardIndex] = useState(0)
   const [showGreen, setShowGreen] = useState(false)
   const [showRed, setShowRed] = useState(false)
-  const [youtube, setYoutube] = useState(false)
 
 
   useEffect(() => {
@@ -29,13 +30,16 @@ const SwiperView = ({ navigation, route }) =>  {
 
   Reactotron.log(cardIndex)
 
-  useEffect(() => {
-    if(cardIndex + 1 === cards.length){
-      dispatch(resetData())
-      setCardIndex(0)
-      setTimeout(() => navigation.replace('Finished'), 700)
-    }
-  }, [cardIndex])
+
+  // useEffect(() => {
+  //   if(cardIndex + 1 === cards.length){
+  //     dispatch(resetData())
+  //     setCardIndex(0)
+  //     setTimeout(() => navigation.push('Finished'), 700)
+  //   }
+  // }, [cardIndex])
+
+  if(loading) return <Loader />
  
   const renderCard = (card, index) => {
     if(card){
@@ -89,6 +93,7 @@ const SwiperView = ({ navigation, route }) =>  {
                 onSwipedLeft={() => onSwiped('left')}
                 onSwipedRight={() => onSwiped('right')}
                 onTapCard={() => onSwiped('tap')}
+                onSwipedAll={() => {navigation.push('Finished')}}
                 cards={cards && cards}
                 cardIndex={cardIndex}
                 cardVerticalMargin={80}
