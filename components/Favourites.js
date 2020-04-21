@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FavCardView from './FavCardView'
-import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { FlatList, View, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Title } from '../styles'
+import BackButton from './BackButton'
+import ScreenLayout from './ScreenLayout'
 
 const Favourites = (props) => {
     const { navigation } = props
     const favourites = useSelector(state => state.favs.favourites)
 
     return (
-        <View style={styles.main}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-                <Title white left>BACK</Title>
-            </TouchableOpacity>
+        <ScreenLayout>
+            <BackButton {...props} />
             <FlatList
                 columnWrapperStyle={styles.container}
                 numColumns={2}
@@ -24,17 +23,13 @@ const Favourites = (props) => {
                 )}
                 keyExtractor={item => item.id}
             />
-        </View>
+        </ScreenLayout>
     )
 }
 
 export default Favourites
 
 const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        backgroundColor: "#313131",
-    },
     container: {
         flex: 1,
         marginTop:20,
@@ -47,11 +42,6 @@ const styles = StyleSheet.create({
         padding: 4,
         height: 350,
         flex: 1
-    },
-    back: {
-        paddingHorizontal: 20, 
-        marginTop: 50,
-        marginBottom: 10,
     },
     image: {
         width: 30, 

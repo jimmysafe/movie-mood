@@ -23,7 +23,7 @@ export const Title = styled.Text`
 	font-size: 14px;
     font-weight: 500;
     text-align: ${props => props.left ? 'left' : 'center'};
-	color: ${props => props.white ? 'white' : 'grey'};
+	color: ${props => props.white ? 'white' : props.red ? '#F4442E' : 'grey'};
 `;
 
 export const Key = styled.Text`

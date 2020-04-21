@@ -6,7 +6,7 @@ let width = Dimensions.get('window').width;
 const navItems = [
     { href: 'Home', icon: '', text: 'Moodie' },
     { href: 'Genres', icon: '', text: 'Genres' },
-    { href: 'Home', icon: '', text: 'Search' },
+    { href: 'Search', icon: '', text: 'Search' },
 ]
 
 const TabNav = (props) => {

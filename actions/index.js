@@ -63,6 +63,49 @@ export const fetchMovie = (id) => {
     };
 };
 
+/**
+|--------------------------------------------------
+| FETCH QUERIED MOVIE FROM SEARCH SCREEN
+|--------------------------------------------------
+*/
+
+const fetchQueriedMovieRequest = () => {
+    return {
+      type: "FETCH_QUERIED_MOVIE_REQUEST"
+    };
+  };
+  
+const fetchQueriedMovieSuccess = (data) => {
+    return {
+        type: "FETCH_QUERIED_MOVIE_SUCCESS",
+        data
+    };
+};
+
+const fetchQueriedMovieFailed = error => {
+    return {
+        type: "FETCH_QUERIED_MOVIE_FAILED",
+        payload: error
+    };
+};
+
+export const fetchQueriedMovie = (query) => {
+    return async dispatch => {
+        try {
+            dispatch(fetchQueriedMovieRequest());
+            const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`)
+            // const cast = res.data.credits.cast
+            // delete res.data.credits
+            // const movie = res.data
+            await dispatch(fetchQueriedMovieSuccess(res.data.results));
+        }
+        catch(err){
+            dispatch(fetchQueriedMovieFailed(err));
+        }
+    };
+};
+
+
 
 /**
 |--------------------------------------------------

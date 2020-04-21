@@ -28,6 +28,26 @@ const cardsReducer = (state = initState, action) => {
                 loading: false
             };
 
+        case "FETCH_QUERIED_MOVIE_REQUEST":
+            return {
+                ...state,
+                loading: true
+            };
+
+        case "FETCH_QUERIED_MOVIE_SUCCESS":
+            return {
+                ...state,
+                data: action.data,
+                loading: false
+            };
+
+        case "FETCH_QUERIED_MOVIE_FAILED":
+            return {
+                ...state,
+                error: action.error,
+                loading: false
+            };
+
         case "FETCH_GENRE_REQUEST":
             return {
                 ...state,

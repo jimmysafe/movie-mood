@@ -34,8 +34,10 @@ const GenreList = (props) => {
                 style={{ width, marginTop: 30 }}
                 data={genres && genres}
                 renderItem={({item}) => (
-                    <TouchableOpacity style={styles.item} onPress={() => handleSelection(item.id)}>
-                        <Title>{item.name}</Title>
+                    <TouchableOpacity onPress={() => handleSelection(item.id)}>
+                        <View style={styles.item}>
+                            <Title red>{item.name}</Title>
+                        </View>
                     </TouchableOpacity>
                 )}
                 keyExtractor={(item, index) => index.toString()}
@@ -50,9 +52,7 @@ const styles = StyleSheet.create({
     item: {
         marginVertical: 10,
         paddingVertical: 10,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        marginHorizontal: 50
+        marginHorizontal: 90
     }
 })
 

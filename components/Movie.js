@@ -7,8 +7,9 @@ import ActorsSlider from './ActorsSlider'
 import StarRating from 'react-native-star-rating';
 import Youtube from './Youtube'
 import Loader from './Loader'
+import BackButton from './BackButton'
+import ScreenLayout from './ScreenLayout'
 
-let height = Dimensions.get('window').height; 
 let width = Dimensions.get('window').width; 
 
 const Movie = (props) => {
@@ -29,25 +30,11 @@ const Movie = (props) => {
     if(loading) return <Loader />
 
     return (
-        <>
-        <View style={{ marginTop: 30, paddingBottom: 10 }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Title>Back</Title>
-            </TouchableOpacity>
-        </View>
-        <ScrollView 
-            style={{
-                position: 'relative',
-                flex: 1,
-                width,
-                height,
-                padding: 10
-            }}
-        >
-            <View style={{ flex: 1, backgroundColor: "white", borderTopLeftRadius: 15, borderTopRightRadius: 15  }}>
-                
+        <ScreenLayout white>
+            <BackButton {...props} white />
+            <ScrollView style={{ position: 'relative', flex: 1, width }} >
                 {/* TOP IMAGE */}
-                <View style={{ flex: 1, overflow: "hidden", borderTopLeftRadius: 15, borderTopRightRadius: 15, height: 100 }}>
+                <View style={{ flex: 1, height: 120 }}>
                     <Image 
                         resizeMode="cover"
                         style={{
@@ -60,7 +47,8 @@ const Movie = (props) => {
                         source={{ uri: topImage }}
                     /> 
                 </View>
-                <ScrollView style={{ flex: 1 }}>
+                {/* CONTENT */}
+                <View style={{ flex: 1 }}>
                     {/* TITLE */}
                     <Title style={{
                         paddingVertical: 10
@@ -143,14 +131,12 @@ const Movie = (props) => {
                     {/* ACTORS SLIDER */}
                     <Title>Cast</Title>
                     <ActorsSlider cast={cast} />
-                
-                </ScrollView>
-            </View>
-            { youtube && 
-            <Youtube youtube={youtube} setYoutube={setYoutube}/>
-            }
-        </ScrollView>
-        </>
+                </View>
+                { youtube && 
+                <Youtube youtube={youtube} setYoutube={setYoutube}/>
+                }
+            </ScrollView>
+        </ScreenLayout>
     )
 }
 

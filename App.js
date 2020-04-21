@@ -7,6 +7,7 @@ import GenreList from './components/GenreList'
 import FinishedSwipe from './components/FinishedSwipe'
 import MovieList from './components/MovieList'
 import Movie from './components/Movie'
+import Search from './components/Search'
 
 import thunk from 'redux-thunk'
 import * as Font from 'expo-font';
@@ -46,6 +47,7 @@ const _App = () => {
           <Stack.Screen name="Finished" component={FinishedSwipe} options={noHeader}/>
           <Stack.Screen name="MovieList" component={MovieList} options={noHeader}/>
           <Stack.Screen name="Movie" component={Movie} options={noHeader}/>
+          <Stack.Screen name="Search" component={Search} options={noHeader}/>
         </Stack.Navigator>
        </NavigationContainer>
     </Provider>

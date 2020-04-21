@@ -6,9 +6,11 @@ import { Title } from '../styles'
 import { fetchMoreMovies, resetData } from '../actions'
 import Loader from './Loader';
 import TabNav from './TabNav'
+import BackButton from './BackButton'
+import ScreenLayout from './ScreenLayout'
 
 const MovieList = (props) => {
-    const { navigation } = props
+    const { navigation, route } = props
 
     const dispatch = useDispatch()
     const flatListRef = useRef(null)
@@ -19,8 +21,12 @@ const MovieList = (props) => {
     const cards = useSelector(state => state.cards.data)
     const genreId = useSelector(state => state.cards.genreId)
 
+    const isQueried = route.params?.queried
+
     useEffect(() => {
-        dispatch(fetchMoreMovies(genreId, page))
+        if(page > 1){
+            dispatch(fetchMoreMovies(genreId, page))
+        }
     }, [page])
 
     const listFooter =  () => {
@@ -40,15 +46,13 @@ const MovieList = (props) => {
     if(loading) return <Loader />
 
     return (
-        <View style={styles.main}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-                <Title white left>BACK</Title>
-            </TouchableOpacity>
+        <ScreenLayout>
+            <BackButton {...props}/>
             <FlatList
                 ref={flatListRef}
                 columnWrapperStyle={styles.container}
                 numColumns={2}
-                ListFooterComponent={listFooter}
+                ListFooterComponent={!isQueried ? listFooter : null}
                 data={cards}
                 renderItem={({ item }) => (
                     <View style={styles.listView}>
@@ -58,17 +62,13 @@ const MovieList = (props) => {
                 keyExtractor={item => item.id}
             />
             <TabNav {...props} />
-        </View>
+        </ScreenLayout>
     )
 }
 
 export default MovieList
 
 const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        backgroundColor: "#313131",
-    },
     container: {
         flex: 1,
         marginTop:20,
@@ -81,11 +81,6 @@ const styles = StyleSheet.create({
         padding: 4,
         height: 350,
         flex: 1
-    },
-    back: {
-        paddingHorizontal: 20, 
-        marginTop: 50,
-        marginBottom: 10,
     },
     image: {
         width: 30, 
