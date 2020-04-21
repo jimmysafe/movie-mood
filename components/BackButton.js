@@ -4,6 +4,7 @@ import { Title } from '../styles'
 
 const BackButton = (props) => {
     const { navigation } = props
+
     return (
         <View style={styles.back}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={{ backgroundColor: props.white ? 'transparent' : '#313131' }}>

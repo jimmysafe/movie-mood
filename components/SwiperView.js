@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Text, View, Platform, TouchableOpacity } from 'react-native'
+import { View, Platform, Dimensions } from 'react-native'
 import CardView from './CardView'
 import SwiperButtons from './SwiperButtons.js'
 import ColorLights from './ColorLights'
-import { fetchMovies, addToFav, fetchMovie, resetData } from '../actions'
+import { fetchMovies, addToFav } from '../actions'
 import { useSelector, useDispatch } from 'react-redux'
-import Reactotron from 'reactotron-react-native'
 import Loader from './Loader'
+//import Reactotron from 'reactotron-react-native'
 
 const SwiperView = ({ navigation, route }) =>  {
   const dispatch = useDispatch()
@@ -23,13 +23,7 @@ const SwiperView = ({ navigation, route }) =>  {
     if(route.params){
       dispatch(fetchMovies(route.params.color))
     }
-    return () => {
-      Reactotron.log("SWIPER UNMOUNTED!")
-    }
   }, [])
-
-  Reactotron.log(cardIndex)
-
 
   // useEffect(() => {
   //   if(cardIndex + 1 === cards.length){
@@ -39,8 +33,7 @@ const SwiperView = ({ navigation, route }) =>  {
   //   }
   // }, [cardIndex])
 
-  if(loading) return <Loader />
- 
+
   const renderCard = (card, index) => {
     if(card){
       return (
@@ -48,6 +41,8 @@ const SwiperView = ({ navigation, route }) =>  {
       )
     }
   };
+
+  if(loading) return <Loader />
 
   const onSwiped = (type) => {
     if(type === "right"){
@@ -64,8 +59,6 @@ const SwiperView = ({ navigation, route }) =>  {
       navigation.push('Movie', { movieId: cards[cardIndex].id})
     }
   };
-
-
 
   const aborted = () => {
     setShowRed(false)

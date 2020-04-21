@@ -5,6 +5,7 @@ let width = Dimensions.get('window').width;
 
 const navItems = [
     { href: 'Home', icon: '', text: 'Moodie' },
+    { href: 'Favs', icon: '', text: 'Favourites' },
     { href: 'Genres', icon: '', text: 'Genres' },
     { href: 'Search', icon: '', text: 'Search' },
 ]

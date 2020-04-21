@@ -32,11 +32,11 @@ export const Key = styled.Text`
 	font-size: 11px;
     font-weight: 500;
     text-align: center;
-	color: grey;
+	color: ${props => props.white ? 'white' : props.red ? '#F4442E' : 'grey'};
 `;
 
 export const Card = styled.View`
-    flex: 10;
+    flex: 1;
     border-radius: 15;
     justify-content: center;
     backgroundColor: white;

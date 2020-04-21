@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Dimensions, StyleSheet } from 'react-native'
 import Button from './Button';
 
-let width = Dimensions.get('window').width; //full width
+let width = Dimensions.get('window').width; 
 
 const SwiperButtons = ({ navigate }) => {
     

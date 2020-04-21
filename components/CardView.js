@@ -1,19 +1,20 @@
 import React from 'react'
-import { Image, StyleSheet, View, Text } from 'react-native'
+import { Image, StyleSheet, View, Text, Dimensions } from 'react-native'
 import { Title, Container, Card } from '../styles'
 import StarRating from 'react-native-star-rating';
 
 const CardView = ({ card }) => {
+    
     return (
-    <Card>
-        <View style={{ flex: 9, overflow: "hidden", borderTopLeftRadius: 15, borderTopRightRadius: 15, }}>
+    <Card >
+        <View style={{ flex: 1, overflow: "hidden", borderTopLeftRadius: 15, borderTopRightRadius: 15, }}>
             <Image 
                 resizeMode="cover"
                 style={styles.canvas}
                 source={{ uri: `https://image.tmdb.org/t/p/w500${card.poster_path}` }}
             /> 
         </View>
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 10, paddingTop: 10 }}>
+        <View style={{ justifyContent: "center", alignItems: "center", paddingBottom: 10, paddingTop: 10 }}>
             <Title>{card.title}</Title>
             <StarRating 
                 disabled={true}

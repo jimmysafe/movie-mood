@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, Dimensions, Button, ScrollView, Image, TouchableOpacity, WebView } from 'react-native'
+import React, { useEffect } from 'react'
+import { View, Text, Dimensions, ScrollView, Image, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { closeTab, fetchMovie} from '../actions'
+import { fetchMovie } from '../actions'
 import { Title, Badge, Key } from '../styles'
 import ActorsSlider from './ActorsSlider'
 import StarRating from 'react-native-star-rating';
-import Youtube from './Youtube'
 import Loader from './Loader'
 import BackButton from './BackButton'
 import ScreenLayout from './ScreenLayout'
@@ -19,8 +18,6 @@ const Movie = (props) => {
     const loading = useSelector(state => state.tab.loading)
     const cast = useSelector(state => state.tab.cast)
 
-    const [youtube, setYoutube] = useState(false)
-
     useEffect(() => {
         dispatch(fetchMovie(route.params.movieId))
     }, [route.params.movieId])
@@ -28,6 +25,7 @@ const Movie = (props) => {
     let topImage = movie.backdrop_path ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` : `https://image.tmdb.org/t/p/w500${movie.poster_path}`
 
     if(loading) return <Loader />
+
 
     return (
         <ScreenLayout white>
@@ -122,7 +120,7 @@ const Movie = (props) => {
                     
                     {movie && movie.videos && movie.videos.results.length > 0 &&
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}>
-                            <TouchableOpacity style={{ borderRadius: 20, margin: 3 }} onPress={() => setYoutube(true)}>
+                            <TouchableOpacity style={{ borderRadius: 20, margin: 3 }} onPress={() => navigation.push('Trailer')}>
                                 <Key>Watch Trailer</Key>
                             </TouchableOpacity>
                         </View>
@@ -132,9 +130,6 @@ const Movie = (props) => {
                     <Title>Cast</Title>
                     <ActorsSlider cast={cast} />
                 </View>
-                { youtube && 
-                <Youtube youtube={youtube} setYoutube={setYoutube}/>
-                }
             </ScrollView>
         </ScreenLayout>
     )
