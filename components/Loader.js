@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Dimensions } from 'react-native'
-import { Title } from '../styles'
+import Moon from '../assets/moon.svg'
+import { Key } from '../styles'
 
 let height = Dimensions.get('window').height; 
 let width = Dimensions.get('window').width; 
@@ -8,7 +9,10 @@ let width = Dimensions.get('window').width;
 const Loader = () => {
     return (
         <View style={{ flex: 1, height, width, justifyContent: 'center', alignItems:'center', backgroundColor:'#313131' }}>
-            <Title white>Loading...</Title>
+           <Moon width={50} height={50}/>
+           <View style={{ marginVertical: 15 }}>
+            <Key white>Loading..</Key>
+           </View>
         </View>
     )
 }

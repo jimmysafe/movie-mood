@@ -23,10 +23,11 @@ const ColorSelection = (props) => {
                 navigate={navigate}
             />  
             <View style={styles.textContainer}>
-                <Heading xl white>Each color represents a mood.</Heading>
-                <Title white>Choose the color that you believe represents better how you feel.</Title>
-                <Key white>Moodie will recommend you 20 movies </Key>
-                <Key white>that you could watch in relation to your current state.</Key>
+                <Heading xl white lineHeight>choose a </Heading>
+                <Heading xl white lineHeight>color.</Heading>
+                <View style={{ paddingHorizontal: 70, marginVertical: 20 }}>
+                    <Title white>Moodie will choose 20 movies for your feels</Title>
+                </View>
             </View>
         </View>
         <TabNav {...props}/>

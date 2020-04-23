@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Dimensions, StyleSheet } from 'react-native'
+import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import Button from './Button';
+import Heart from '../assets/heart.svg'
 
 let width = Dimensions.get('window').width; 
 
@@ -8,10 +9,9 @@ const SwiperButtons = ({ navigate }) => {
     
     return (
         <View style={styles.main}>
-            <Button 
-                action={() => navigate('Favs')}
-                imgSource={require('../assets/favourites.png')}
-            />
+            <TouchableOpacity onPress={() => navigate('Favs')}>
+                <Heart widht={30} height={30}/>
+            </TouchableOpacity>
         </View>
     )
 }

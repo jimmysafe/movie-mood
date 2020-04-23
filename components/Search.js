@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { fetchQueriedMovie } from '../actions'
 import BackButton from './BackButton'
 import ScreenLayout from './ScreenLayout'
+import TabNav from './TabNav'
 
 const Search = (props) => {
     const { navigation } = props
@@ -20,8 +21,8 @@ const Search = (props) => {
     }
 
     return (
+        <>
         <ScreenLayout>
-            {/* <View style={{ flex: 1, backgroundColor: '#313131' }}> */}
                 <BackButton {...props}/>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#313131' }}>
                     <TextInput 
@@ -33,8 +34,9 @@ const Search = (props) => {
                         onSubmitEditing={() => handleSubmit(query)}
                     />
                 </View>
-            {/* </View> */}
         </ScreenLayout>
+        <TabNav {...props}/>
+        </>
     )
 }
 

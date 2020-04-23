@@ -36,7 +36,7 @@ const GenreList = (props) => {
                 renderItem={({item}) => (
                     <TouchableOpacity onPress={() => handleSelection(item.id)}>
                         <View style={styles.item}>
-                            <Title red>{item.name}</Title>
+                            <Title white>{item.name}</Title>
                         </View>
                     </TouchableOpacity>
                 )}

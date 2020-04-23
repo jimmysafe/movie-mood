@@ -13,7 +13,8 @@ export const Heading = styled.Text`
 	font-size: ${props => props.xl ? '42px' : '18px'};
     font-weight: 500;
     text-align: center;
-	color: white;
+    color: white;
+    line-height: ${props => props.lineHeight ? 45 : 42}
 `;
 
 
@@ -29,10 +30,11 @@ export const Title = styled.Text`
 export const Key = styled.Text`
     font-family:'montserrat-medium';
     text-transform: uppercase;
-	font-size: 11px;
+	font-size: ${props => props.nav ? '9px' : '11px'};
     font-weight: 500;
     text-align: center;
-	color: ${props => props.white ? 'white' : props.red ? '#F4442E' : 'grey'};
+    color: ${props => props.white ? 'white' : props.red ? '#F4442E' : 'grey'};
+    letter-spacing: ${props => props.nav ? '1px' : 0};
 `;
 
 export const Card = styled.View`

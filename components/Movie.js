@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Text, Dimensions, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Dimensions, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchMovie } from '../actions'
 import { Title, Badge, Key } from '../styles'
@@ -8,6 +8,7 @@ import StarRating from 'react-native-star-rating';
 import Loader from './Loader'
 import BackButton from './BackButton'
 import ScreenLayout from './ScreenLayout'
+import Play from '../assets/play.svg'
 
 let width = Dimensions.get('window').width; 
 
@@ -119,9 +120,12 @@ const Movie = (props) => {
                     </View>
                     
                     {movie && movie.videos && movie.videos.results.length > 0 &&
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10 }}>
-                            <TouchableOpacity style={{ borderRadius: 20, margin: 3 }} onPress={() => navigation.push('Trailer')}>
-                                <Key>Watch Trailer</Key>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10, marginBottom: 20 }}>
+                            <TouchableOpacity style={styles.play} onPress={() => navigation.push('Trailer')}>
+                                <View style={{ marginRight: 10 }}>
+                                    <Play width={20} height={20}/>
+                                </View>
+                                <Key white>Watch Trailer</Key>
                             </TouchableOpacity>
                         </View>
                     }
@@ -134,5 +138,17 @@ const Movie = (props) => {
         </ScreenLayout>
     )
 }
+
+const styles = StyleSheet.create({
+    play: {
+        margin: 3,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 20,
+        backgroundColor: '#2d232e',
+        flexDirection: "row",
+        alignItems: 'center'
+    }
+})
 
 export default Movie

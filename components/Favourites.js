@@ -2,28 +2,49 @@ import React from 'react'
 import FavCardView from './FavCardView'
 import { FlatList, View, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux'
+import { Title, Key, Heading } from '../styles'
 import BackButton from './BackButton'
 import ScreenLayout from './ScreenLayout'
+import TabNav from './TabNav'
+import Alert from '../assets/alert.svg'
 
 const Favourites = (props) => {
     const { navigation } = props
     const favourites = useSelector(state => state.favs.favourites)
 
     return (
+        <>
         <ScreenLayout>
             <BackButton {...props} />
-            <FlatList
-                columnWrapperStyle={styles.container}
-                numColumns={2}
-                data={favourites}
-                renderItem={({ item }) => (
-                    <View style={styles.listView}>
-                        <FavCardView card={item} {...props}/>
+            {favourites.length === 0 ? (
+                <View style={styles.placeholder}>
+                    <Alert width={40} height={40} />
+                    <View style={{ marginTop: 15 }}>
+                        <Heading white lineHeight>You have not saved any movie yet.</Heading>
                     </View>
-                )}
-                keyExtractor={item => item.id}
-            />
+                    <View style={{ paddingHorizontal: 70, marginTop: 15 }}>
+                        <Key white>Go back and add some movies to your list of favourites!</Key>
+                    </View>
+                </View>
+            )
+            :
+            (
+                <FlatList
+                    columnWrapperStyle={styles.container}
+                    numColumns={2}
+                    data={favourites}
+                    renderItem={({ item }) => (
+                        <View style={styles.listView}>
+                            <FavCardView card={item} {...props}/>
+                        </View>
+                    )}
+                    keyExtractor={item => item.id}
+                />
+            )
+            }
         </ScreenLayout>
+        <TabNav {...props}/>
+        </>
     )
 }
 
@@ -46,5 +67,11 @@ const styles = StyleSheet.create({
     image: {
         width: 30, 
         height: 30
+    },
+    placeholder: {
+        flex: 1,
+        marginTop: 20,
+        justifyContent: "center",
+        alignItems:'center'
     }
 })
