@@ -31,29 +31,29 @@ const noHeader = { headerShown: false }
 
 
 const _App = () => {
-  return (
-    <Provider store={store}>
-       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            gestureEnabled: true,
-            gestureDirection: 'horizontal',
-            ...TransitionPresets.SlideFromRightIOS
-          }}
-        >
-          <Stack.Screen name="Home" component={ColorSelection} options={noHeader} />
-          <Stack.Screen name="Swiper" component={SwiperView} options={noHeader}/>
-          <Stack.Screen name="Genres" component={GenreList} options={noHeader}/>
-          <Stack.Screen name="Favs" component={Favourites} options={noHeader}/>
-          <Stack.Screen name="Finished" component={FinishedSwipe} options={noHeader}/>
-          <Stack.Screen name="MovieList" component={MovieList} options={noHeader}/>
-          <Stack.Screen name="Movie" component={Movie} options={noHeader}/>
-          <Stack.Screen name="Search" component={Search} options={noHeader}/>
-          <Stack.Screen name="Trailer" component={Youtube} options={noHeader}/>
-        </Stack.Navigator>
-       </NavigationContainer>
-    </Provider>
-  )
+    return (
+      <Provider store={store}>
+         <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              gestureEnabled: true,
+              gestureDirection: 'horizontal',
+              ...TransitionPresets.SlideFromRightIOS
+            }}
+          >
+            <Stack.Screen name="Home" component={ColorSelection} options={noHeader} />
+            <Stack.Screen name="Swiper" component={SwiperView} options={noHeader}/>
+            <Stack.Screen name="Genres" component={GenreList} options={noHeader}/>
+            <Stack.Screen name="Favs" component={Favourites} options={noHeader}/>
+            <Stack.Screen name="Finished" component={FinishedSwipe} options={noHeader}/>
+            <Stack.Screen name="MovieList" component={MovieList} options={noHeader}/>
+            <Stack.Screen name="Movie" component={Movie} options={noHeader}/>
+            <Stack.Screen name="Search" component={Search} options={noHeader}/>
+            <Stack.Screen name="Trailer" component={Youtube} options={noHeader}/>
+          </Stack.Navigator>
+         </NavigationContainer>
+      </Provider>
+    )
 }
 
 const App = () => {
