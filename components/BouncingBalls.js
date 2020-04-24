@@ -115,7 +115,6 @@ class BouncingBalls extends PureComponent {
 
     const onClickAction = (color) => {
       navigate('Swiper', { color });
-      console.log(color)
     }
 
     for (var i = 0; i < moods.length; i++) {

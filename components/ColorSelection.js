@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, StyleSheet, Dimensions } from 'react-native'
 import { Heading, Title, Key } from '../styles'
 import BouncingBalls from './BouncingBalls'
 import TabNav from './TabNav'
+import { useSelector, useDispatch } from 'react-redux'
+import { _retrieveData } from '../helpers'
+import { initFavs } from '../actions'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
 const ColorSelection = (props) => {
+    const dispatch = useDispatch()
     const { navigate } = props.navigation
 
+    const favs = useSelector(state => state.favs)
+    useEffect(() => {
+        if(!favs.init){
+            _retrieveData('favs').then(res => dispatch(initFavs(res)))
+        }
+    }, [])
+    
     return (
         <>
         <View style={styles.container}>

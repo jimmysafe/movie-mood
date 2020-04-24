@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FavCardView from './FavCardView'
 import { FlatList, View, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -7,11 +7,10 @@ import BackButton from './BackButton'
 import ScreenLayout from './ScreenLayout'
 import TabNav from './TabNav'
 import Alert from '../assets/alert.svg'
+import { _retrieveData } from '../helpers'
 
 const Favourites = (props) => {
-    const { navigation } = props
     const favourites = useSelector(state => state.favs.favourites)
-
     return (
         <>
         <ScreenLayout>

@@ -7,14 +7,12 @@ import ColorLights from './ColorLights'
 import { fetchMovies, addToFav } from '../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import Loader from './Loader'
-import { _storeData, _retrieveData } from '../helpers'
 //import Reactotron from 'reactotron-react-native'
 
 const SwiperView = ({ navigation, route }) =>  {
   const dispatch = useDispatch()
   const cards = useSelector(state => state.cards.data)  
-  const loading = useSelector(state => state.cards.loading)  
-  const favourites = useSelector(state => state.favs.favourites)
+  const loading = useSelector(state => state.cards.loading) 
 
   const [cardIndex, setCardIndex] = useState(0)
   const [showGreen, setShowGreen] = useState(false)
@@ -26,15 +24,6 @@ const SwiperView = ({ navigation, route }) =>  {
       dispatch(fetchMovies(route.params.color))
     }
   }, [])
-
-  // useEffect(() => {
-  //   if(cardIndex + 1 === cards.length){
-  //     dispatch(resetData())
-  //     setCardIndex(0)
-  //     setTimeout(() => navigation.push('Finished'), 700)
-  //   }
-  // }, [cardIndex])
-
 
   const renderCard = (card, index) => {
     if(card){
@@ -51,14 +40,11 @@ const SwiperView = ({ navigation, route }) =>  {
       setCardIndex(cardIndex + 1)
       let savedMovie = cards[cardIndex]
       dispatch(addToFav(savedMovie))
-      // _storeData('favs', savedMovie)
-      console.log(favourites)
       setShowGreen(false)
     }
     else if(type === "left"){
       setCardIndex(cardIndex + 1)
       setShowRed(false)
-      _retrieveData('favs')
     }
     else if(type === "tap"){
       navigation.push('Movie', { movieId: cards[cardIndex].id})

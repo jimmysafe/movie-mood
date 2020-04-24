@@ -19,8 +19,12 @@ import Reactotron from './ReactotronConfig'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import { configureStore } from "@reduxjs/toolkit";
 
-const store = createStore(rootReducer, compose(applyMiddleware(thunk), Reactotron.createEnhancer()));
+
+const store = configureStore({
+  reducer: rootReducer
+}, compose(applyMiddleware(thunk), Reactotron.createEnhancer()));
 
 
 const Stack = createStackNavigator();
@@ -58,7 +62,7 @@ const _App = () => {
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false)
-  
+
   const loadFonts = async() => {
     await Font.loadAsync({
       'montserrat-medium': require('./assets/fonts/Montserrat-Medium.ttf'),

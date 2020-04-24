@@ -224,6 +224,13 @@ export const fetchMovies = (color) => {
 |--------------------------------------------------
 */
 
+export const initFavs = (storedFavs) => {
+    return {
+        type: 'INIT_FAVOURITES',
+        storedFavs
+    }
+}
+
 export const addToFav = (newFav) => {
     return {
         type: "ADD_TO_FAVOURITES",
